@@ -37,22 +37,22 @@
     <script type="text/javascript">
         alert("<%=msg%>");
     </script>
-    <meta http-equiv="refresh" content="0;url=http://localhost:9000/PRJ/loginForm">
+    <meta http-equiv="refresh" content="0;url=/PRJ/loginForm">
     <%} else if(res.equals("1")) {%>
     <script type="text/javascript">
         alert("<%=msg%>");
     </script>
-    <meta http-equiv="refresh" content="0;url=http://localhost:9000/PRJ/PRJMain">
+    <meta http-equiv="refresh" content="0;url=/PRJ/PRJmain">
     <%} else if(res1.equals("2")) {%>
     <script type="text/javascript">
         alert("<%=msg%>");
     </script>
-    <meta http-equiv="refresh" content="0;url=http://localhost:9000/PRJ/loginForm">
+    <meta http-equiv="refresh" content="0;url=/PRJ/loginForm">
     <%} else {%>
     <script type="text/javascript">
         alert("<%=msg%>");
     </script>
-    <meta http-equiv="refresh" content="0;url=http://localhost:9000/PRJ/loginForm">
+    <meta http-equiv="refresh" content="0;url=/PRJ/loginForm">
     <%} %>
 
 </head>
