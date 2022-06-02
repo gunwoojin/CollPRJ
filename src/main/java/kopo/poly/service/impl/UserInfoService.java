@@ -67,4 +67,9 @@ public class UserInfoService implements IUserInfoService {
         return userInfoMapper.getUserLoginCheck(pDTO);
     }
 
+    @Override
+    public UserInfoDTO deleteUser(UserInfoDTO pDTO) throws Exception {
+        return null;
+    }
+
 }

@@ -45,5 +45,10 @@
         AND PASSWORD = #{password}
     </select>
 
+    <delete id="deleteUser" parameterType="UserInfoDTO">
+        DELETE FROM USER_INFO
+        WHERE USER_SEQ = #{user_seq}
+    </delete>
+
 
 </mapper>
