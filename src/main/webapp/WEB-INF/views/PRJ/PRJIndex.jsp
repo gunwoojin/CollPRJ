@@ -41,13 +41,13 @@
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
                aria-expanded="true" aria-controls="collapseBootstrap">
                 <i class="far fa-fw fa-window-maximize"></i>
-                <span>ÁÖÂ÷Àå º¸±â</span>
+                <span>ì£¼ì°¨ì¥ ë³´ê¸°</span>
             </a>
             <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">ÁÖÂ÷Àå º¸±â</h6>
-                    <a class="collapse-item" href="alerts.html">°øÀ¯ÁÖÂ÷Àå º¸±â</a>
-                    <a class="collapse-item" href="buttons.html">°ø¿µÁÖÂ÷Àå º¸±â</a>
+                    <h6 class="collapse-header">ì£¼ì°¨ì¥ ë³´ê¸°</h6>
+                    <a class="collapse-item" href="alerts.html">ê³µìœ ì£¼ì°¨ì¥ ë³´ê¸°</a>
+                    <a class="collapse-item" href="buttons.html">ê³µì˜ì£¼ì°¨ì¥ ë³´ê¸°</a>
                 </div>
             </div>
         </li>
@@ -55,12 +55,12 @@
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForm" aria-expanded="true"
                aria-controls="collapseForm">
                 <i class="fab fa-fw fa-wpforms"></i>
-                <span>CCTVÀ§Ä¡È®ÀÎ</span>
+                <span>CCTVìœ„ì¹˜í™•ì¸</span>
             </a>
             <div id="collapseForm" class="collapse" aria-labelledby="headingForm" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">CCTVÀ§Ä¡È®ÀÎ</h6>
-                    <a class="collapse-item" href="form_basics.html">ÁÖÂ÷´Ü¼Ó CCTV</a>
+                    <h6 class="collapse-header">CCTVìœ„ì¹˜í™•ì¸</h6>
+                    <a class="collapse-item" href="form_basics.html">ì£¼ì°¨ë‹¨ì† CCTV</a>
 
                 </div>
             </div>
@@ -74,9 +74,9 @@
             <div id="collapseTable" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">My Page</h6>
-                    <a class="collapse-item" href="simple-tables.html">È¸¿øÁ¤º¸¼öÁ¤</a>
-                    <a class="collapse-item" href="datatables.html">¿¹¾à ³»¿ª º¸±â</a>
-                    <a class="collapse-item" href="datatables.html">È¸¿ø Å»Åğ</a>
+                    <a class="collapse-item" href="simple-tables.html">íšŒì›ì •ë³´ìˆ˜ì •</a>
+                    <a class="collapse-item" href="datatables.html">ì˜ˆì•½ ë‚´ì—­ ë³´ê¸°</a>
+                    <a class="collapse-item" href="datatables.html">íšŒì› íƒˆí‡´</a>
 
                 </div>
             </div>
@@ -84,7 +84,7 @@
         <li class="nav-item">
             <a class="nav-link" href="ui-colors.html">
                 <i class="fas fa-fw fa-palette"></i>
-                <span>Æ÷ÀÎÆ®¼¥</span>
+                <span>í¬ì¸íŠ¸ìƒµ</span>
             </a>
         </li>
         <hr class="sidebar-divider">
@@ -225,28 +225,28 @@
 
                 <div id="map" style="width:1200px;height:500px;"></div>
 
-                <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=3eaf5b2da4931b0cb10a1266b1502421"></script>
+                <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=??"></script>
                 <script>
-                    var mapContainer = document.getElementById('map'), // Áöµµ¸¦ Ç¥½ÃÇÒ div
+                    var mapContainer = document.getElementById('map'), // ì§€ë„ë¥¼ í‘œì‹œí•  div
                         mapOption = {
-                            center: new kakao.maps.LatLng(37.56521, 126.98024), // ÁöµµÀÇ Áß½ÉÁÂÇ¥
-                            level: 5, // ÁöµµÀÇ È®´ë ·¹º§
-                            mapTypeId : kakao.maps.MapTypeId.ROADMAP // ÁöµµÁ¾·ù
+                            center: new kakao.maps.LatLng(37.56521, 126.98024), // ì§€ë„ì˜ ì¤‘ì‹¬ì¢Œí‘œ
+                            level: 5, // ì§€ë„ì˜ í™•ëŒ€ ë ˆë²¨
+                            mapTypeId : kakao.maps.MapTypeId.ROADMAP // ì§€ë„ì¢…ë¥˜
                         };
 
-                    // Áöµµ¸¦ »ı¼ºÇÑ´Ù
+                    // ì§€ë„ë¥¼ ìƒì„±í•œë‹¤
                     var map = new kakao.maps.Map(mapContainer, mapOption);
 
-                    // Áöµµ Å¸ÀÔ º¯°æ ÄÁÆ®·ÑÀ» »ı¼ºÇÑ´Ù
+                    // ì§€ë„ íƒ€ì… ë³€ê²½ ì»¨íŠ¸ë¡¤ì„ ìƒì„±í•œë‹¤
                     var mapTypeControl = new kakao.maps.MapTypeControl();
 
-                    // ÁöµµÀÇ »ó´Ü ¿ìÃø¿¡ Áöµµ Å¸ÀÔ º¯°æ ÄÁÆ®·ÑÀ» Ãß°¡ÇÑ´Ù
+                    // ì§€ë„ì˜ ìƒë‹¨ ìš°ì¸¡ì— ì§€ë„ íƒ€ì… ë³€ê²½ ì»¨íŠ¸ë¡¤ì„ ì¶”ê°€í•œë‹¤
                     map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
 
-                    // Áöµµ¿¡ È®´ë Ãà¼Ò ÄÁÆ®·ÑÀ» »ı¼ºÇÑ´Ù
+                    // ì§€ë„ì— í™•ëŒ€ ì¶•ì†Œ ì»¨íŠ¸ë¡¤ì„ ìƒì„±í•œë‹¤
                     var zoomControl = new kakao.maps.ZoomControl();
 
-                    // ÁöµµÀÇ ¿ìÃø¿¡ È®´ë Ãà¼Ò ÄÁÆ®·ÑÀ» Ãß°¡ÇÑ´Ù
+                    // ì§€ë„ì˜ ìš°ì¸¡ì— í™•ëŒ€ ì¶•ì†Œ ì»¨íŠ¸ë¡¤ì„ ì¶”ê°€í•œë‹¤
                     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
                 </script>
