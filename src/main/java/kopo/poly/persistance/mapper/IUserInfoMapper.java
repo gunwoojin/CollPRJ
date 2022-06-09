@@ -3,8 +3,9 @@ package kopo.poly.persistance.mapper;
 
 import kopo.poly.dto.UserInfoDTO;
 
-import org.apache.catalina.User;
+
 import org.apache.ibatis.annotations.Mapper;
+
 
 
 import java.util.List;
@@ -23,6 +24,10 @@ public interface IUserInfoMapper {
     //로그인을 위해 아이디와 비밀번호가 일치하는지 확인하기
     UserInfoDTO getUserLoginCheck(UserInfoDTO pDTO) throws Exception;
 
-    UserInfoDTO deleteUser(UserInfoDTO pDTO) throws Exception;
+    //회원탈퇴
+    int deleteUser(UserInfoDTO pDTO) throws Exception;
+
+    //회원정보 수정
+    void updateUser(UserInfoDTO pDTO) throws Exception;
 
 }

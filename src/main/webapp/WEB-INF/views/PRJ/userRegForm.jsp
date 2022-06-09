@@ -1,11 +1,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-         pageEncoding="EUC-KR" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="EUC-KR">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up page</title>
@@ -35,36 +35,36 @@
     } </style>
 
     <script type="text/javascript">
-        // È¸¿ø°¡ÀÔ À¯È¿¼º Ã¼Å©
+        // íšŒì›ê°€ì… ìœ íš¨ì„± ì²´í¬
         function doRegUserCheck(f) {
 
             if (f.user_id.value === "") {
-                alert("¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+                alert("ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”");
                 f.user_id.focus();
                 return false;
             }
             if (f.email.value === "") {
-                alert("ÀÌ¸ŞÀÏÀ» ÀÔ·ÂÇÏ¼¼¿ä");
+                alert("ì´ë©”ì¼ì„ ì…ë ¥í•˜ì„¸ìš”");
                 f.email.focus();
                 return false;
             }
             if (f.password.value === "") {
-                alert("ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+                alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”");
                 f.password.focus();
                 return false;
             }
             if (f.password2.value === "") {
-                alert("ºñ¹Ğ¹øÈ£¸¦ È®ÀÎÇÏ¼¼¿ä");
+                alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ í™•ì¸í•˜ì„¸ìš”");
                 f.password2.focus();
                 return false;
             }
             if (f.address.value === "") {
-                alert("ÁÖ¼ÒÀ» ÀÔ·ÂÇÏ¼¼¿ä");
+                alert("ì£¼ì†Œì„ ì…ë ¥í•˜ì„¸ìš”");
                 f.address.focus();
                 return false;
             }
             if (f.user_phone.value === "") {
-                alert("ÀüÈ­¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+                alert("ì „í™”ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”");
                 f.user_phone.focus();
                 return false;
             }
@@ -83,41 +83,41 @@
                     <div class="row">
 
                         <div class="col-md-6 mb-3">
-                            <td>ID</td>
+                            <div>ID</div>
                             <input type="text" name="user_id" class="form-control">
-                            <div class="invalid-feedback"> write name.</div>
+
                         </div>
                         <div class="col-md-6 mb-3">
-                            <td>E-mail</td>
+                            <div>E-mail</div>
                             <input type="text" name="email" class="form-control" placeholder="you@example.com">
-                            <div class="invalid-feedback"> write email.</div>
+
                         </div>
                     </div>
                     <div class="mb-3">
-                        <td>Password</td>
+                        <div>Password</div>
                         <input type="password" name="password" class="form-control">
-                        <div class="invalid-feedback"> write password.</div>
+
                     </div>
                     <div class="mb-3">
-                        <td>Check Password</td>
+                        <div>Check Password</div>
                         <input type="password" name="password2" class="form-control">
-                        <div class="invalid-feedback"> password check.</div>
+
                     </div>
                     <div class="mb-3">
-                        <td>Address</td>
+                        <div>Address</div>
                         <input type="text" name="address" class="form-control" placeholder="Seoul">
-                        <div class="invalid-feedback"> your address.</div>
+
                     </div>
                     <div class="mb-3">
-                        <td>Phone</td>
+                        <div>Phone</div>
                         <input type="text" name="user_phone" class="form-control">
 
-                        <div class="invalid-feedback"> your Phone.</div>
+
                     </div>
                     <hr class="mb-4">
 
                     <div class="mb-4"></div>
-                    <input type="submit" class="btn btn-primary btn-lg btn-block"/>\
+                    <input type="submit" class="btn btn-primary btn-lg btn-block"/>
 
 
                 </form>

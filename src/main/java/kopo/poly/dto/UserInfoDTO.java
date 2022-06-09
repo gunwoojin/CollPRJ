@@ -22,4 +22,5 @@ public class UserInfoDTO {
     public String exists_yn;
 
 
+
 }

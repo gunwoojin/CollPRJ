@@ -32,7 +32,7 @@
     </div>
 
     <div class="caption">
-        <a href="PRJ/userRegForm">Create Your ID?</a>
+        <a href="/PRJ/userRegForm">Create Your ID?</a>
     </div>
 </section>
 

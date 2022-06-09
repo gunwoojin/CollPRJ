@@ -6,8 +6,12 @@ import kopo.poly.persistance.mapper.IUserInfoMapper;
 import kopo.poly.service.IUserInfoService;
 import kopo.poly.util.CmmUtil;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+
 
 
 @Slf4j
@@ -21,6 +25,21 @@ public class UserInfoService implements IUserInfoService {
         this.userInfoMapper = userInfoMapper;
     }
 
+
+
+    //-----------------Login------------------
+    @Override
+    public UserInfoDTO getUserLoginCheck(UserInfoDTO pDTO) throws Exception {
+
+        if (pDTO == null) {
+            pDTO = new UserInfoDTO();
+        }
+        return userInfoMapper.getUserLoginCheck(pDTO);
+    }
+
+
+
+    //회원가입
     @Override
     public int insertUserInfo(UserInfoDTO pDTO) throws Exception {
 
@@ -57,19 +76,37 @@ public class UserInfoService implements IUserInfoService {
     }
 
 
-    //-----------------Login------------------
-    @Override
-    public UserInfoDTO getUserLoginCheck(UserInfoDTO pDTO) throws Exception {
 
-        if (pDTO == null) {
-            pDTO = new UserInfoDTO();
-        }
-        return userInfoMapper.getUserLoginCheck(pDTO);
+    @Transactional
+    @Override
+    public int deleteUser(UserInfoDTO pDTO) throws Exception {
+
+        log.info(this.getClass().getName() + ".deleteUser start!");
+
+        int res = userInfoMapper.deleteUser(pDTO);
+
+        return res;
     }
 
+
+
+    @Transactional
     @Override
-    public UserInfoDTO deleteUser(UserInfoDTO pDTO) throws Exception {
-        return null;
+    public void updateUser(UserInfoDTO pDTO) throws Exception {
+
+        log.info(this.getClass().getName() + ".updateUser start!");
+
+        userInfoMapper.updateUser(pDTO);
+
+        log.info(this.getClass().getName() + ".updateUser end");
     }
 
-}
+
+
+
+    }
+
+
+
+
+

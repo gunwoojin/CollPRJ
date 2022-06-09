@@ -1,18 +1,16 @@
 package kopo.poly.controller;
 
-
 import kopo.poly.dto.UserInfoDTO;
 import kopo.poly.service.IUserInfoService;
 import kopo.poly.util.CmmUtil;
 import kopo.poly.util.EncryptUtil;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +26,6 @@ public class UserInfoController {
 
     @Autowired
     public void UserInfoService(IUserInfoService userInfoService) {this.userInfoService = userInfoService;}
-
 
 
      //--------------------------------------회원가입 페이지로 이동----------------------------
@@ -50,6 +47,7 @@ public class UserInfoController {
         log.info(this.getClass().getName() + ".insertUserInfo start!");
 
         String msg = "";
+        String url = "";
 
         UserInfoDTO pDTO = null;
 
@@ -80,10 +78,13 @@ public class UserInfoController {
 
             if (res==1){
                 msg = "회원가입 되었습니다";
+                url = "/PRJ/loginForm";
             }else if(res==2) {
                 msg = "이미 가입된 이메일 주소입니다";
+                url = "/PRJ/userRegForm";
             }else{
                 msg = "오류로 인해 회원가입이 실패하였습니다";
+                url = "/PRJ/userRegForm";
             }
 
         }catch (Exception e){
@@ -96,13 +97,13 @@ public class UserInfoController {
             log.info(this.getClass().getName() + ".insertUserInfo end!");
 
             model.addAttribute("msg", msg);
-
+            model.addAttribute("url", url);
             model.addAttribute("pDTO", pDTO);
 
             pDTO = null;
         }
 
-        return "/PRJ/PRJLogin";
+        return "/redirect";
     }
 
     //---------------------로그인을 위한 입력 화면으로 이동-----------------------
@@ -127,6 +128,9 @@ public class UserInfoController {
 
             String user_id = CmmUtil.nvl(request.getParameter("user_id"));
             String password = CmmUtil.nvl(request.getParameter("password"));
+            String email = CmmUtil.nvl(request.getParameter("email"));
+            String user_phone = CmmUtil.nvl(request.getParameter("user_phone"));
+            String address = CmmUtil.nvl(request.getParameter("address"));
 
             log.info("user_id : " + user_id);
             log.info("password : " + password);
@@ -135,6 +139,9 @@ public class UserInfoController {
 
             pDTO.setUser_id(user_id);
             pDTO.setPassword(EncryptUtil.encHashSHA256(password));
+            pDTO.setEmail(email);
+            pDTO.setUser_phone(user_phone);
+            pDTO.setAddress(address);
 
             UserInfoDTO rDTO = userInfoService.getUserLoginCheck(pDTO);
 
@@ -149,9 +156,13 @@ public class UserInfoController {
                 //session에 저장
                 session.setAttribute("SS_USER_ID", rDTO.getUser_id());
                 session.setAttribute("SS_USER_SEQ", rDTO.getUser_seq());
+                session.setAttribute("SS_USER_PHONE",rDTO.getUser_phone());
+                session.setAttribute("SS_ADDRESS",rDTO.getAddress());
 
                 log.info("SS_USER_ID : " + rDTO.getUser_id());
                 log.info("SS_USER_SEQ : " + rDTO.getUser_seq());
+                log.info("SS_USER_PHONE :" + rDTO.getUser_phone());
+                log.info("SS_ADDRESS :" + rDTO.getAddress());
             }
             rDTO = null;
 
@@ -161,14 +172,15 @@ public class UserInfoController {
             log.info(e.toString());
             e.printStackTrace();
         }finally {
-            log.info(this.getClass().getName() + "insertUser end!");
+            log.info(this.getClass().getName() + ".insertUser end!");
             model.addAttribute("msg", msg);
             model.addAttribute("url", url);
         }
         return "/redirect";
     }
 
-    @RequestMapping(value = "PRJ/Logout") // 로그아웃
+    //-----------------------로그아웃--------------------------
+    @RequestMapping(value = "PRJ/Logout")
     public String Logout(HttpServletRequest request, ModelMap model) {
         log.info(this.getClass().getName() + ".Logout start!");
         HttpSession session = request.getSession();
@@ -180,4 +192,130 @@ public class UserInfoController {
         model.addAttribute("url", url);
         return "/redirect";
     }
+
+
+    //----------------------회원탈퇴-----------------------------------
+    @GetMapping(value = "PRJ/deleteUser")
+    public String deleteUser(HttpSession session, HttpServletResponse response,HttpServletRequest request, ModelMap model) {
+
+        log.info(this.getClass().getName() + ".deleteUser start!");
+
+        String msg = "";
+        String url = "";
+
+        try {
+
+//            String user_seq = CmmUtil.nvl(request.getParameter("user_seq"));
+            String user_id = CmmUtil.nvl((String) session.getAttribute("SS_USER_ID"));
+
+
+            log.info("user_id :" + user_id);
+
+            UserInfoDTO pDTO = new UserInfoDTO();
+            pDTO.setUser_id(user_id);
+
+            int res= userInfoService.deleteUser(pDTO);
+
+            log.info("res  :" + res);
+            msg = "회원탈퇴에 성공하였습니다";
+            url = "/PRJ/loginForm";
+
+            session.invalidate(); // session clear
+
+
+        } catch (Exception e) {
+            msg = "회원탈퇴 실패 : " + e.getMessage();
+            url = "/PRJmain";
+            log.info(e.toString());
+            e.printStackTrace();
+        } finally {
+            log.info(this.getClass().getName() + ".deleteUser end!");
+
+            model.addAttribute("msg", msg);
+            model.addAttribute("url", url);
+
+
+        }
+
+        return "/redirect";
+    }
+
+    //-----------------회원정보 보기---------------
+    @RequestMapping(value = "/PRJ/myPage")
+    public String MyPage(){
+        return "/PRJ/myPage1";
+    }
+
+
+    //--------------------예약내역 보기----------------
+    @RequestMapping(value = "/PRJ/myPage2")
+    public String MyPage2(){
+        return "/PRJ/myPage2";
+    }
+
+
+    //-------------------공유내역 보기------------------
+    @RequestMapping(value = "/PRJ/myPage3")
+    public String MyPage3(){return "PRJ/myPage3";}
+
+
+    //----------------회원정보 수정으로 이동--------------
+    @RequestMapping(value = "/PRJ/updateUserMove")
+    public String updateUserMove(HttpSession session, HttpServletRequest request, ModelMap model)
+    {return "/PRJ/updateUser";}
+
+
+    //--------------------회원정보 수정----------------
+    @RequestMapping(value = "PRJ/updateUser")
+    public String updateUser(HttpSession session, HttpServletRequest request, ModelMap model) {
+
+        log.info(this.getClass().getName() + ".userUpdate start!");
+
+        String msg = "";
+        String url = "";
+
+        try {
+
+            String user_seq = CmmUtil.nvl(request.getParameter("user_seq"));
+            String address = CmmUtil.nvl(request.getParameter("address"));
+            String user_phone = CmmUtil.nvl(request.getParameter("user_phone"));
+
+
+            log.info("user_seq:" + user_seq);
+            log.info("address:" + address);
+            log.info("user_phone:" + user_phone);
+
+            UserInfoDTO pDTO = new UserInfoDTO();
+
+            pDTO.setUser_seq(user_seq);
+            pDTO.setAddress(address);
+            pDTO.setUser_phone(user_phone);
+
+            userInfoService.updateUser(pDTO);
+
+            msg = "수정되었습니다";
+            url = "/PRJ/myPage";
+
+            session.setAttribute("SS_USER_PHONE",pDTO.getUser_phone());
+            session.setAttribute("SS_ADDRESS",pDTO.getAddress());
+        }catch (Exception e){
+
+            msg = "수정 실패";
+            url = "/PRJ/myPage";
+            log.info("수정 실패" + e.getMessage());
+            e.printStackTrace();
+        }finally {
+            log.info(this.getClass().getName() + ".UserUpdate end");
+
+            model.addAttribute("msg",msg);
+            model.addAttribute("url",url);
+        }
+
+        log.info("url:" + url);
+
+        return "/redirect";}
+
+
+
+
 }

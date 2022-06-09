@@ -2,9 +2,18 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
 <%@ page import="kopo.poly.util.CmmUtil" %>
+<%@ page import="java.util.List" %>
+<%@ page import="kopo.poly.dto.PubParkDTO" %>
+
+
 <%
     String SS_USER_ID = CmmUtil.nvl((String) session.getAttribute("SS_USER_ID"));
+
+    List<PubParkDTO> rList = (List<PubParkDTO>) request.getAttribute("rList");
+
 %>
+
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -15,7 +24,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="img/logo/logo.png" rel="icon">
-    <title>ShareParking Main</title>
+    <title>Public Parkinglot</title>
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="css/ruang-admin.min.css" rel="stylesheet">
@@ -25,7 +34,7 @@
 <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="PRJmain">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
             <div class="sidebar-brand-icon">
                 <img src="img/logo/logoback.jpg">
             </div>
@@ -51,7 +60,7 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">주차장 보기</h6>
                     <a class="collapse-item" href="alerts.html">공유주차장 보기</a>
-                    <a class="collapse-item" href="buttons.html">공영주차장 보기</a>
+                    <a class="collapse-item" href="PRJ/PubPark">공영주차장 보기</a>
                 </div>
             </div>
         </li>
@@ -64,7 +73,7 @@
             <div id="collapseForm" class="collapse" aria-labelledby="headingForm" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">CCTV위치확인</h6>
-                    <a class="collapse-item" href="/PRJ/CCTV">주차단속 CCTV</a>
+                    <a class="collapse-item" href="/CCTV">주차단속 CCTV</a>
 
                 </div>
             </div>
@@ -79,9 +88,8 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">My Page</h6>
                     <a class="collapse-item" href="/PRJ/myPage">회원정보수정</a>
-                    <a class="collapse-item" href="/Share/RegPark">주차장 공유하기</a>
-                    <a class="collapse-item" href="/PRJ/myPage2">예약 내역 보기</a>
-                    <a class="collapse-item" href="/PRJ/myPage3">공유 내역 보기</a>
+                    <a class="collapse-item" href="simple-tables.html">주차장 공유하기</a>
+                    <a class="collapse-item" href="datatables.html">예약 내역 보기</a>
                     <a class="collapse-item" href="/PRJ/deleteUser" data-toggle="modal" data-target="#deleteUserModal">회원 탈퇴</a>
 
                 </div>
@@ -122,7 +130,7 @@
             <!-- Container Fluid-->
             <div class="container-fluid" id="container-wrapper">
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Share Parking</h1>
+                    <h1 class="h3 mb-0 text-gray-800">공영주차장 위치</h1>
                 </div>
 
                 <div id="map" style="width:1200px;height:500px;"></div>
@@ -139,6 +147,28 @@
                     // 지도를 생성한다
                     var map = new kakao.maps.Map(mapContainer, mapOption);
 
+                    // 마커를 표시할 위치입니다
+
+                    <% for (PubParkDTO e: rList){ %>
+
+                    var positions = [
+
+                        title = <%=e.getParkingName()%>
+                        latlng = new kakao.maps.LatLot(<%=e.getLat()%>, <%=e.getLng()%>) ];
+
+
+                    <% } %>
+
+                    // 마커를 생성합니다
+                    for (var i = 0; i < positions.length; i++) {
+                        var marker = new kakao.maps.Marker({
+                            map: map,
+                            position: positions[i].latlng,
+                            title: positions[i].title,
+                            clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+
+                        });
+                    }
                     // 지도 타입 변경 컨트롤을 생성한다
                     var mapTypeControl = new kakao.maps.MapTypeControl();
 
@@ -172,10 +202,10 @@
                                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
                                 <a href="PRJ/Logout" class="btn btn-primary">Logout</a>
                             </div>
-                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
 
             <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
@@ -200,11 +230,11 @@
             </div>
         </div>
 
-            </div>
-            <!---Container Fluid-->
-        </div>
-
     </div>
+    <!---Container Fluid-->
+</div>
+
+</div>
 </div>
 
 

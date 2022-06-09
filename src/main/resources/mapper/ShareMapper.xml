@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kopo.poly.persistance.mapper.IShareMapper">
+
+
+
+    <insert id="InsertShare" parameterType="ShareDTO">
+
+        INSERT INTO SHAREPARK (
+        SP_TITLE, SP_CONTENTS,
+        USER_ID, REG_ID, REG_DT,
+        START_TIME, END_TIME, SP_PLACE,
+        CHG_ID, CHG_DT
+        )
+        VALUE (
+        #{sp_title}, #{sp_contents},
+        #{user_id}, #{user_id}, sysdate(),
+        #{start_time}, #{end_time}, #{sp_place},
+        #{user_id}, sysdate()
+        )
+
+    </insert>
+
+</mapper>

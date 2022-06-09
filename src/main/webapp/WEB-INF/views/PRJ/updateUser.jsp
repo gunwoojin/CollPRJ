@@ -1,29 +1,51 @@
 <%@ page import="kopo.poly.util.CmmUtil" %>
+<%@ page import="kopo.poly.dto.UserInfoDTO" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
          pageEncoding="EUC-KR" %>
 <%
-    String SS_ADDRESS = CmmUtil.nvl((String) session.getAttribute("SS_ADDRESS"));
-    String SS_USER_PHONE = CmmUtil.nvl((String) session.getAttribute("SS_USER_PHONE"));
-
+    String SS_USER_SEQ = CmmUtil.nvl((String) session.getAttribute("SS_USER_SEQ"));
 %>
-
+<%
+    UserInfoDTO rDTO = (UserInfoDTO) request.getAttribute("rDTO");
+%>
+<%
+    if (rDTO==null){
+        rDTO = new UserInfoDTO();
+    }
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="EUC-KR">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원정보 </title>
+    <title>회원정보 수정</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/myPage.css">
+    <script type="javascript">
+        function doSubmit(f){
+            if (f.address.value == ""){
+                alert("주소를 입력하세요.");
+                f.address.focus();
+                return false;
+            }
+
+            if (f.user_phone.value == ""){
+                alert("전화번호를 입력하세요.");
+                f.user_phone.focus();
+                return false;
+            }
+        }
+    </script>
+
 </head>
 <body class="pc">
 
 <div class="wrap show">
     <div class="sub_top_wrap">
         <div class="sub_top">
-            <h1>MY페이지</h1>
+            <h1>회원정보 수정</h1>
         </div>
     </div>
     <div id="content" class="sub_wrap">
@@ -35,12 +57,6 @@
                 <li>
                     <a href="PRJ/myPage2">예약 내역</a>
                 </li>
-                <li>
-                    <a href="PRJ/myPage3" class="active">공유 내역</a>
-                </li>
-                <li>
-                    <a href="/PRJmain">Home</a>
-                </li>
             </ul>
         </nav>
         <div class="align_rt">
@@ -49,38 +65,41 @@
                 <div class="tab">
                     <div class="tab_btn">
                         <ul>
-                            <li>회원정보</li>
+                            <li>새 정보입력</li>
                         </ul>
                     </div>
                 </div>
                 <div class="tab_each">
+
+                    <form name="f" method="post" action="/PRJ/updateUser" onsubmit="return doSubmit(this)";>
+                    <input type="hidden" name="user_seq" value="<%=SS_USER_SEQ%>" />
                     <ul>
                         <li>
                             <div>
-                                <span>주소  :</span>
-                                <a1><%=SS_ADDRESS%></a1>
+                                <span>Address :</span>
+                                <input type="text" name="address" maxlength="100" class="mod" placeholder="주소를 입력하세요" value=<%=CmmUtil.nvl(rDTO.getAddress())%>>
                             </div>
                         </li>
                     </ul>
                     <ul>
                         <li>
                             <div>
-                                <span>휴대폰 번호  :</span>
-                                <a1><%=SS_USER_PHONE%></a1>
+                                <span>휴대폰 번호 :</span>
+                                <input type="text"name="user_phone" maxlength="100" class="mod"  placeholder="번호를 입력하세요" value=<%=CmmUtil.nvl(rDTO.getUser_phone())%>>
                             </div>
                         </li>
                         <br>
+                        <li>
 
+                        </li>
+                        <li>
+                            <input type="submit" class="modify" />
 
-                        <button type="button" onclick="location.href='/PRJ/updateUserMove'">수정하기</button>
-
+                        </li>
                     </ul>
 
-                    <hr>
+                    </form>
 
-                        <button type="button" onclick="location.href='/PRJ/updatePassword'">비밀번호 변경하기</button>
-
-                    <hr>
 
                 </div>
             </div>
