@@ -4,7 +4,7 @@
     <meta charset="EUC-KR">
     <title>LoginForm</title>
     <link rel="stylesheet" href="/css/login.css" type="text/css">
-    <script src="static/js/._jquery-3.2.1.min.js"></script>
+    <script src="../js/._jquery-3.2.1.min.js"></script>
 </head>
 <body>
 <section class="login-form">
@@ -28,7 +28,7 @@
         </div>
     </form>
     <div class="caption">
-        <a href="">Forget Password?</a>
+        <a href="">Forget Your ID?</a>
     </div>
 
     <div class="caption">

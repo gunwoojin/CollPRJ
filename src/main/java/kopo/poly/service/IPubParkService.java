@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface IPubParkService {
 
-    int insertPubPark(List<PubParkDTO> rList) throws Exception;
+    int insertPubPark() throws Exception;
+
+    List<PubParkDTO> getPubPark() throws Exception;
 }

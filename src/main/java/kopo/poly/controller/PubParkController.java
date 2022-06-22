@@ -10,7 +10,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +29,8 @@ import java.util.List;
 
 
 @Slf4j
-@Controller
+@
+        Controller
 public class PubParkController {
 
     // Map 객체를 사용한 데이터 처리
@@ -35,103 +39,37 @@ public class PubParkController {
 
 
 
-    @RequestMapping(value = "PRJ/PubPark")
-    public String showPubPark(HttpSession session, HttpServletRequest request, HttpServletResponse response,
+    @GetMapping(value = "PRJ/PubPark")
+    public int showPubPark(HttpSession session, HttpServletRequest request, HttpServletResponse response,
                            ModelMap model) throws Exception {
 
-        List<PubParkDTO> rList = new ArrayList<>();
+        log.info(this.getClass().getName() + ".insertPubPark DATA start");
 
-        log.info(this.getClass().getName() + "start@@");
+        int res = pubParkService.insertPubPark();
 
-        StringBuilder urlBuilder = new StringBuilder("http://211.252.37.224/rest/parking"); /*URL*/
+        log.info(this.getClass().getName() + ".insertPubPark DATA End");
 
-        URL url = new URL(urlBuilder.toString());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Content-type", "application/json");
-        System.out.println("Response code: " + conn.getResponseCode());
-        BufferedReader rd;
-        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-        }
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        rd.close();
-        conn.disconnect();
+        return res;
 
-        log.info("#####파싱한데이터########");
-        log.info(sb.toString());
-
-
-        JSONObject result = null;
-        result = (JSONObject) new JSONParser().parse(sb.toString());
-        //result.get("response");
-        JSONArray result2= (JSONArray) result.get("parkingInfoList");
-
-        log.info(String.valueOf(result2));
-
-
-
-       for (int i =0;i<result2.size();i++) {
-
-            JSONObject pubpark = (JSONObject) result2.get(i);
-            String parkingName = String.valueOf(pubpark.get("parkingName"));  //주차장이름
-            String operationRuleNm = String.valueOf(pubpark.get("operationRuleNm")); //공영인지 민영인지확인
-            String addrRoad = (String) pubpark.get("addrRoad"); //도로명 주소
-            String payYn = (String) pubpark.get("payYn"); //유무료 금액확인
-            String lat = (String) pubpark.get("lat"); // X좌표
-            String lng = (String) pubpark.get("lng"); // Y 좌표
-
-
-
-
-
-            log.info("parkingName :"+parkingName);
-            log.info("operationRuleNm : "+ operationRuleNm);
-            log.info("addrRoad : "+ addrRoad);
-            log.info("payYn : "+ payYn);
-            log.info("lat : "+ lat);
-            log.info("lng : "+ lng);
-
-
-
-            PubParkDTO pDTO = new PubParkDTO();
-
-
-
-            pDTO.setParkingName(parkingName);
-            pDTO.setOperationRuleNm(operationRuleNm);
-            pDTO.setAddrRoad(addrRoad);
-            pDTO.setPayYn(payYn);
-            pDTO.setLat(lat);
-            pDTO.setLng(lng);
-
-
-
-            rList.add(pDTO);
-
-
-
-
-
-        }
-
-       int res = pubParkService.insertPubPark(rList);
-
-       log.info(this.getClass().getName()+"res : "+res);  //res가 1이면 저장완료
-
-        log.info(this.getClass().getName()+"공영주차장 DB insert End!!! ");
-
-        return "PubPark/pubparkmap";
     }
 
 
+    @GetMapping(value = "PRJ/pubParkMap")
+    public String getPubPark(ModelMap model, HttpSession session, HttpServletRequest request, HttpServletResponse response)
+        throws Exception{
 
+        log.info(this.getClass().getName() + ".getPubPark start");
+
+        List<PubParkDTO> rList = pubParkService.getPubPark();
+
+        model.addAttribute("rList", rList);
+
+        log.info(this.getClass().getName() + ".getPub End1");
+
+        log.info("rList : " + rList);
+
+        return "PRJ/PubParkMap";
+    }
 }
 
 

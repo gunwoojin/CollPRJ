@@ -101,10 +101,13 @@ public class UserInfoService implements IUserInfoService {
         log.info(this.getClass().getName() + ".updateUser end");
     }
 
-
-
-
+    @Override
+    public int updatePwSave(UserInfoDTO pDTO) throws Exception {
+        return 0;
     }
+
+
+}
 
 
 

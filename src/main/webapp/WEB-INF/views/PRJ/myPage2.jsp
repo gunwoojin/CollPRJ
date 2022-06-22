@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/css/myPage3.css" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 </head>
+
+
 <body class="pc">
 <div class="wrap show">
     <div class="sub_top_wrap">
@@ -22,13 +24,13 @@
         <nav>
             <ul>
                 <li>
-                    <a href="PRJ/myPage">회원정보 수정</a>
+                    <a href="/myPage">회원정보 수정</a>
                 </li>
                 <li>
-                    <a href="PRJ/myPage2" class="active">예약 내역</a>
+                    <a href="/myPage2" class="active">예약 내역</a>
                 </li>
                 <li>
-                    <a href="PRJ/myPage3" class="active">공유 내역</a>
+                    <a href="/myPage3" >공유 내역</a>
                 </li>
                 <li>
                     <a href="/PRJmain">Home</a>

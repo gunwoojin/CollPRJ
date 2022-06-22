@@ -62,7 +62,14 @@
             USER_SEQ = #{user_seq}
     </update>
 
+    <update id="updatePwSave" parameterType="UserInfoDTO">
+        UPDATE
+            USER_INFO
+        SET
+            PASSWORD = #{password}
+        WHERE USER_SEQ = #{user_seq}
 
+    </update>
 
 
 

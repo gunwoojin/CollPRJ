@@ -89,7 +89,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <div>E-mail</div>
-                            <input type="text" name="email" class="form-control" placeholder="you@example.com">
+                            <input type="email" name="email" class="form-control" placeholder="you@example.com">
 
                         </div>
                     </div>

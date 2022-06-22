@@ -5,12 +5,14 @@
 <%@page import="kopo.poly.dto.CCTVDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
-
-
 <%
     String SS_USER_ID = CmmUtil.nvl((String) session.getAttribute("SS_USER_ID"));
 
     List<CCTVDTO> rList = (List<CCTVDTO>) request.getAttribute("rList");
+
+    if (rList == null){
+        rList = new ArrayList<CCTVDTO>();
+    }
 
 %>
 <!DOCTYPE html>
@@ -22,11 +24,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="img/logo/logo.png" rel="icon">
+    <link href="../img/logo/logo.png" rel="icon">
     <title>CCTV</title>
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="css/ruang-admin.min.css" rel="stylesheet">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/ruang-admin.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body id="page-top">
@@ -35,14 +37,14 @@
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
             <div class="sidebar-brand-icon">
-                <img src="img/logo/logoback.jpg">
+                <img src="../img/logo/logoback.jpg">
             </div>
             <div class="sidebar-brand-text mx-3">ShareParking</div>
         </a>
         <hr class="sidebar-divider my-0">
         <li class="nav-item active">
-            <a class="nav-link" href="PRJmain">
-                <img src="img/home.jpg">
+            <a class="nav-link" href="/PRJmain">
+                <img src="../img/home.jpg">
                 <span>Home</span></a>
         </li>
         <hr class="sidebar-divider">
@@ -58,8 +60,8 @@
             <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">주차장 보기</h6>
-                    <a class="collapse-item" href="alerts.html">공유주차장 보기</a>
-                    <a class="collapse-item" href="buttons.html">공영주차장 보기</a>
+                    <a class="collapse-item" href="/spMap_test">공유주차장 보기</a>
+                    <a class="collapse-item" href="/PRJ/pubParkMap">공영주차장 보기</a>
                 </div>
             </div>
         </li>
@@ -72,7 +74,7 @@
             <div id="collapseForm" class="collapse" aria-labelledby="headingForm" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">CCTV위치확인</h6>
-                    <a class="collapse-item" href="/CCTV">주차단속 CCTV</a>
+                    <a class="collapse-item" href="/cctvMap/test">주차단속 CCTV</a>
 
                 </div>
             </div>
@@ -87,8 +89,8 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">My Page</h6>
                     <a class="collapse-item" href="/PRJ/myPage">회원정보수정</a>
-                    <a class="collapse-item" href="simple-tables.html">주차장 공유하기</a>
-                    <a class="collapse-item" href="datatables.html">예약 내역 보기</a>
+                    <a class="collapse-item" href="/Share/RegPark">주차장 공유하기</a>
+                    <a class="collapse-item" href="/PRJ/myPage2">예약 내역 보기</a>
                     <a class="collapse-item" href="/PRJ/deleteUser" data-toggle="modal" data-target="#deleteUserModal">회원 탈퇴</a>
 
                 </div>
@@ -110,7 +112,7 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
-                            <img class="img-profile rounded-circle" src="img/boy.png" style="max-width: 60px">
+                            <img class="img-profile rounded-circle" src="../img/boy.png" style="max-width: 60px">
                             <span class="ml-2 d-none d-lg-inline text-white small"><%=SS_USER_ID%></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -134,7 +136,7 @@
 
                 <div id="map" style="width:1200px;height:500px;"></div>
 
-                <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=3eaf5b2da4931b0cb10a1266b1502421"></script>
+                <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=3eaf5b2da4931b0cb10a1266b1502421"></script>
                 <script>
                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
                         mapOption = {
@@ -147,22 +149,24 @@
                     var map = new kakao.maps.Map(mapContainer, mapOption);
 
                     // 마커를 표시할 위치입니다
-
-                    <% for (CCTVDTO e: rList){ %>
-
-                         <% if(e.getLat()== null){ %>
-
-                  <%   continue;} %>
-
-                        var position =  new kakao.maps.LatLot(<%=e.getLat()%>, <%=e.getLot()%>);
-
-                    <% } %>
+                    <%
+                    for (int i = 0; i < rList.size(); i++){
+                        CCTVDTO rDTO = rList.get(i);
+                        if (rDTO == null){
+                            rDTO = new CCTVDTO();
+                        }
+                    %>
+                        var markerPosition =  new kakao.maps.LatLng(<%=CmmUtil.nvl(rDTO.getLat())%>, <%=CmmUtil.nvl(rDTO.getLot())%>);
 
                     // 마커를 생성합니다
                     var marker = new kakao.maps.Marker({
-                        position: position,
-                        clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+                        position: markerPosition
                     });
+
+                    map.setCenter(markerPosition);
+                    marker.setMap(map);
+
+                    <% } %>
 
                     // 지도 타입 변경 컨트롤을 생성한다
                     var mapTypeControl = new kakao.maps.MapTypeControl();
@@ -175,6 +179,8 @@
 
                     // 지도의 우측에 확대 축소 컨트롤을 추가한다
                     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+
 
                 </script>
 
@@ -240,12 +246,12 @@
 
 
 
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-<script src="js/ruang-admin.min.js"></script>
-<script src="vendor/chart.js/Chart.min.js"></script>
-<script src="js/demo/chart-area-demo.js"></script>
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="../js/ruang-admin.min.js"></script>
+<script src="../vendor/chart.js/Chart.min.js"></script>
+<script src="../js/demo/chart-area-demo.js"></script>
 </body>
 
 </html>

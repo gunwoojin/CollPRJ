@@ -1,8 +1,10 @@
 package kopo.poly.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class ShareDTO {
 
     private String sp_seq;
@@ -16,8 +18,5 @@ public class ShareDTO {
     private String sp_place;
     private String chg_id;
     private String chg_dt;
-
-    private String exists_yn;
-
-
+    private String reser_id;
 }

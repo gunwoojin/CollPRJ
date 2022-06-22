@@ -7,4 +7,6 @@ import java.util.List;
 public interface ICCTVMapper {
 
     int insertCCTV(List<CCTVDTO> rList, String colNm) throws Exception;
+
+    List<CCTVDTO> getCCTV(String colNm) throws Exception;
 }

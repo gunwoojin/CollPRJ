@@ -20,6 +20,55 @@
         #{user_id}, sysdate()
         )
 
+
     </insert>
 
+    <select id="getShareList" resultType="ShareDTO">
+        SELECT S.SP_TITLE, S.SP_CONTENTS, S.START_TIME, S.END_TIME, S.SP_PLACE, P.SAVE_FILE_PATH
+        FROM SHAREPARK S, FILE_PATH P
+        WHERE S.REG_ID = #{user_id}
+    </select>
+
+
+    <select id="getShareListAll" resultType="ShareDTO">
+        SELECT SP_SEQ, SP_TITLE, USER_ID, REG_ID, REG_DT, START_TIME, END_TIME, SP_PLACE, CHG_ID, CHG_DT
+        FROM SHAREPARK
+    </select>
+
+    <select id="getParkInfo" resultType="ShareDTO">
+        SELECT SP_TITLE, SP_CONTENTS,SP_PLACE, START_TIME, END_TIME, REG_ID
+        FROM SHAREPARK
+        WHERE SP_SEQ = #{sp_seq}
+    </select>
+
+    <update id="updateParkInfo" parameterType="ShareDTO">
+        UPDATE SHAREPARK SET
+            SP_TITLE = #{sp_title},
+            SP_CONTENTS = #{sp_contents},
+            START_TIME = #{start_time},
+            END_TIME = #{end_time},
+            SP_PLACE = #{sp_place},
+            CHG_ID = #{user_id},
+            CHG_DT = SYSDATE()
+        WHERE
+            SP_SEQ = #{sp_seq}
+    </update>
+
+    <delete id="deleteParkInfo" parameterType="ShareDTO">
+        DELETE FROM SHAREPARK
+        WHERE SP_SEQ = #{sp_seq}
+    </delete>
+
+    <select id="getReserExists" parameterType="ShareDTO" resultType="ShareDTO">
+        SELECT RESER_ID
+        FROM SHAREPARK
+        WHERE SP_SEQ = #{sp_seq}
+    </select>
+
+    <update id="Reservation" parameterType="ShareDTO">
+        UPDATE SHAREPARK SET
+            RESER_ID = #{reser_id}
+        WHERE
+            SP_SEQ = #{sp_seq}
+    </update>
 </mapper>

@@ -2,9 +2,21 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
 <%@ page import="kopo.poly.util.CmmUtil" %>
+<%@ page import="java.util.List" %>
+<%@ page import="kopo.poly.dto.PubParkDTO" %>
+<%@ page import="java.util.ArrayList" %>
 <%
     String SS_USER_ID = CmmUtil.nvl((String) session.getAttribute("SS_USER_ID"));
+
+    List<PubParkDTO> rList = (List<PubParkDTO>) request.getAttribute("rList");
+
+    if (rList == null){
+        rList = new ArrayList<PubParkDTO>();
+    }
+
 %>
+
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -15,7 +27,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="../img/logo/logo.png" rel="icon">
-    <title>ShareParking Main</title>
+    <title>Public Parkinglot</title>
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="../css/ruang-admin.min.css" rel="stylesheet">
@@ -25,16 +37,16 @@
 <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="PRJmain">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/PRJmain">
             <div class="sidebar-brand-icon">
-                <img src="img/logo/logoback.jpg">
+                <img src="../img/logo/logoback.jpg">
             </div>
             <div class="sidebar-brand-text mx-3">ShareParking</div>
         </a>
         <hr class="sidebar-divider my-0">
         <li class="nav-item active">
-            <a class="nav-link" href="PRJmain">
-                <img src="img/home.jpg">
+            <a class="nav-link" href="/PRJmain">
+                <img src="../img/home.jpg">
                 <span>Home</span></a>
         </li>
         <hr class="sidebar-divider">
@@ -51,7 +63,7 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">주차장 보기</h6>
                     <a class="collapse-item" href="/spMap_test">공유주차장 보기</a>
-                    <a class="collapse-item" href="/PRJ/pubParkMap">공영주차장 보기</a>
+                    <a class="collapse-item" href="/PRJ/PubPark">공영주차장 보기</a>
                 </div>
             </div>
         </li>
@@ -81,7 +93,6 @@
                     <a class="collapse-item" href="/PRJ/myPage">회원정보수정</a>
                     <a class="collapse-item" href="/Share/RegPark">주차장 공유하기</a>
                     <a class="collapse-item" href="/PRJ/myPage2">예약 내역 보기</a>
-                    <a class="collapse-item" href="/PRJ/myPage3">공유 내역 보기</a>
                     <a class="collapse-item" href="/PRJ/deleteUser" data-toggle="modal" data-target="#deleteUserModal">회원 탈퇴</a>
 
                 </div>
@@ -103,7 +114,7 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
-                            <img class="img-profile rounded-circle" src="img/boy.png" style="max-width: 60px">
+                            <img class="img-profile rounded-circle" src="../img/boy.png" style="max-width: 60px">
                             <span class="ml-2 d-none d-lg-inline text-white small"><%=SS_USER_ID%></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -122,7 +133,7 @@
             <!-- Container Fluid-->
             <div class="container-fluid" id="container-wrapper">
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Share Parking</h1>
+                    <h1 class="h3 mb-0 text-gray-800">공영주차장 위치</h1>
                 </div>
 
                 <div id="map" style="width:1200px;height:500px;"></div>
@@ -139,6 +150,25 @@
                     // 지도를 생성한다
                     var map = new kakao.maps.Map(mapContainer, mapOption);
 
+                    // 마커를 표시할 위치입니다
+                    <%
+                    for (int i = 0; i < rList.size(); i++){
+                        PubParkDTO rDTO = rList.get(i);
+                        if (rDTO == null){
+                            rDTO = new PubParkDTO();
+                        }
+                    %>
+                    var markerPosition = new kakao.maps.LatLng(<%=CmmUtil.nvl(rDTO.getLat())%>, <%=CmmUtil.nvl(rDTO.getLng())%>);
+
+                    // 마커를 생성합니다
+                    var marker= new kakao.maps.Marker({
+                        position: markerPosition
+                    });
+
+                    map.setCenter(markerPosition);
+                    marker.setMap(map);
+
+                    <% } %>
                     // 지도 타입 변경 컨트롤을 생성한다
                     var mapTypeControl = new kakao.maps.MapTypeControl();
 
@@ -170,14 +200,14 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                                <a href="PRJ/Logout" class="btn btn-primary">Logout</a>
-                            </div>
+                                <a href="/PRJ/Logout" class="btn btn-primary">Logout</a>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-            <!--Modal DeleteUser-->
+
             <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
                  aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -200,11 +230,11 @@
             </div>
         </div>
 
-            </div>
-            <!---Container Fluid-->
-        </div>
-
     </div>
+    <!---Container Fluid-->
+</div>
+
+</div>
 </div>
 
 

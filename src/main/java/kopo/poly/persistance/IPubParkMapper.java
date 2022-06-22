@@ -7,4 +7,6 @@ import java.util.List;
 public interface IPubParkMapper {
 
     int insertPubPark(List<PubParkDTO> rList, String colNm) throws Exception;
+
+    List<PubParkDTO> getPubPark(String colNm) throws Exception;
 }

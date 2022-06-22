@@ -30,13 +30,13 @@
         <nav>
             <ul>
                 <li>
-                    <a href="PRJ/myPage" class="active">회원정보 수정</a>
+                    <a href="myPage" class="active">회원정보 수정</a>
                 </li>
                 <li>
-                    <a href="PRJ/myPage2">예약 내역</a>
+                    <a href="myPage2">예약 내역</a>
                 </li>
                 <li>
-                    <a href="PRJ/myPage3" class="active">공유 내역</a>
+                    <a href="myPage3">공유 내역</a>
                 </li>
                 <li>
                     <a href="/PRJmain">Home</a>

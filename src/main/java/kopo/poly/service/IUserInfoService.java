@@ -16,5 +16,8 @@ public interface IUserInfoService {
 
     void updateUser(UserInfoDTO pDTO) throws Exception;
 
+    //비밀번호 변경
+    int updatePwSave(UserInfoDTO pDTO) throws Exception;
+
 
 }

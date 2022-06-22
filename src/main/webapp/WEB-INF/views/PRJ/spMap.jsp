@@ -2,8 +2,18 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
 <%@ page import="kopo.poly.util.CmmUtil" %>
+<%@ page import="kopo.poly.dto.ShareDTO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%
     String SS_USER_ID = CmmUtil.nvl((String) session.getAttribute("SS_USER_ID"));
+
+    List<ShareDTO> rList = (List<ShareDTO>) request.getAttribute("rList");
+
+    if (rList == null) {
+        rList = new ArrayList<ShareDTO>();
+    }
+
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -14,26 +24,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="../img/logo/logo.png" rel="icon">
-    <title>ShareParking Main</title>
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="../css/ruang-admin.min.css" rel="stylesheet">
+    <link href="img/logo/logo.png?ver=3" rel="icon">
+    <title>SP_MAP</title>
+    <link href="vendor/fontawesome-free/css/all.min.css?ver=3" rel="stylesheet" type="text/css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css?ver=3" rel="stylesheet" type="text/css">
+    <link href="css/ruang-admin.min.css?ver=3" rel="stylesheet">
+    <script type="text/javascript">
+        function doDetail(seq){
+            location.href="/share/ParkInfo?sSeq=" + seq;
+        }
+    </script>
+    <style>
+        .customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+        .customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+        .customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+        .customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+        .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+    </style>
 </head>
 
 <body id="page-top">
 <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="PRJmain">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/PRJmain">
             <div class="sidebar-brand-icon">
-                <img src="img/logo/logoback.jpg">
+                <img src="../img/logo/logoback.jpg">
             </div>
             <div class="sidebar-brand-text mx-3">ShareParking</div>
         </a>
         <hr class="sidebar-divider my-0">
         <li class="nav-item active">
-            <a class="nav-link" href="PRJmain">
+            <a class="nav-link" href="/PRJmain">
                 <img src="img/home.jpg">
                 <span>Home</span></a>
         </li>
@@ -64,7 +86,7 @@
             <div id="collapseForm" class="collapse" aria-labelledby="headingForm" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">CCTV위치확인</h6>
-                    <a class="collapse-item" href="/cctvMap/test">주차단속 CCTV</a>
+                    <a class="collapse-item" href="/PRJ/CCTV">주차단속 CCTV</a>
 
                 </div>
             </div>
@@ -122,13 +144,15 @@
             <!-- Container Fluid-->
             <div class="container-fluid" id="container-wrapper">
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Share Parking</h1>
+                    <h1 class="h3 mb-0 text-gray-800">공유주차장 보기</h1>
                 </div>
 
                 <div id="map" style="width:1200px;height:500px;"></div>
 
-                <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=3eaf5b2da4931b0cb10a1266b1502421"></script>
+                <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=3eaf5b2da4931b0cb10a1266b1502421&libraries=services"></script>
+
                 <script>
+
                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
                         mapOption = {
                             center: new kakao.maps.LatLng(37.56521, 126.98024), // 지도의 중심좌표
@@ -138,6 +162,57 @@
 
                     // 지도를 생성한다
                     var map = new kakao.maps.Map(mapContainer, mapOption);
+
+                    <%
+                   for (int i = 0; i < rList.size(); i++){
+                       ShareDTO rDTO = rList.get(i);
+
+                       if (rDTO == null){
+                           rDTO = new ShareDTO();
+                       }
+                  %>
+
+                    // 주소-좌표 변환 객체를 생성합니다
+                    var geocoder = new kakao.maps.services.Geocoder();
+                    // 주소로 좌표를 검색합니다
+                    geocoder.addressSearch('<%=CmmUtil.nvl(rDTO.getSp_place())%>', function(result, status) {
+
+                        // 정상적으로 검색이 완료됐으면
+                        if (status === kakao.maps.services.Status.OK) {
+
+                            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                            // 결과값으로 받은 위치를 마커로 표시합니다
+                            var marker = new kakao.maps.Marker({
+                                map: map,
+                                position: coords,
+                                clickable: true
+                            });
+
+                            map.setCenter(coords);
+
+                            marker.setMap(map);
+
+
+                        }
+                        var iwContent = '<div style="padding: 5px;"><%=CmmUtil.nvl(rDTO.getSp_seq())%>.<%=CmmUtil.nvl(rDTO.getSp_title())%></div> <br> <a href="/share/ParkInfo?sSeq=<%=CmmUtil.nvl(rDTO.getSp_seq())%>";>상세보기</a> ',
+                            iwRemoveable = true;
+
+                        var infowindow = new kakao.maps.InfoWindow({
+                            content : iwContent,
+                            removable : iwRemoveable
+                        });
+
+                        kakao.maps.event.addListener(marker, 'click', function (){
+                            infowindow.open(map, marker);
+                        })
+
+                    });
+
+
+
+                    <% } %>
+
 
                     // 지도 타입 변경 컨트롤을 생성한다
                     var mapTypeControl = new kakao.maps.MapTypeControl();
@@ -172,12 +247,12 @@
                                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
                                 <a href="PRJ/Logout" class="btn btn-primary">Logout</a>
                             </div>
-                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-            <!--Modal DeleteUser-->
+
             <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
                  aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -193,18 +268,18 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                            <a href="/PRJ/deleteUser" class="btn btn-primary">Delete User</a>
+                            <a href="PRJ/deleteUser" class="btn btn-primary">Delete User</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-            </div>
-            <!---Container Fluid-->
-        </div>
-
     </div>
+    <!---Container Fluid-->
+</div>
+
+</div>
 </div>
 
 

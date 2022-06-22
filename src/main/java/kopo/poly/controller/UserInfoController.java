@@ -6,7 +6,6 @@ import kopo.poly.util.CmmUtil;
 import kopo.poly.util.EncryptUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -253,10 +252,6 @@ public class UserInfoController {
         return "/PRJ/myPage2";
     }
 
-
-    //-------------------공유내역 보기------------------
-    @RequestMapping(value = "/PRJ/myPage3")
-    public String MyPage3(){return "PRJ/myPage3";}
 
 
     //----------------회원정보 수정으로 이동--------------

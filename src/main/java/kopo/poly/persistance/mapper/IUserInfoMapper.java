@@ -11,7 +11,9 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface IUserInfoMapper {
+public interface
+
+IUserInfoMapper {
 
     List<UserInfoDTO> getNoticeList() throws Exception;
 
@@ -30,4 +32,12 @@ public interface IUserInfoMapper {
     //회원정보 수정
     void updateUser(UserInfoDTO pDTO) throws Exception;
 
+    //사용자 Id 찾기
+    UserInfoDTO findUserId(UserInfoDTO pDTO);
+
+    //사용자 정보가져오기
+    List<UserInfoDTO> getUserList(UserInfoDTO pDTO);
+
+    //비밀번호 수정
+    int updatePwSave(UserInfoDTO pDTO) throws Exception;
 }

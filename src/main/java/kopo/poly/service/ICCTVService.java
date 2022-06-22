@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface ICCTVService {
 
-    int insertCCTV(List<CCTVDTO> rList)throws Exception;
+    int insertCCTV()throws Exception;
+
+    List<CCTVDTO> getCCTV() throws Exception;
 }
